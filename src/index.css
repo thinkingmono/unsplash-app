@@ -74,6 +74,8 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   line-height: 1;
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
 }
 p {
   margin: 0;
@@ -392,9 +394,10 @@ body{
   color: var(--textColor);
 }
 
-@media (prefers-color-scheme: dark){
+/*User preference dark mode just with css*/
+/* @media (prefers-color-scheme: dark){
   :root{
     --textColor: var(--dark-mode-text-color);
     --backgroundColor: var(--dark-mode-bg-color);
   }
-}
+} */

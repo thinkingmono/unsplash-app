@@ -5,9 +5,9 @@ import { useGlobalContext } from "../utils/context"
 const ThemeToggle = () => {
     const { isDarkTheme, toggleDarkTheme } = useGlobalContext();
     return (
-        <div className="toggle-container">
+        <section className="toggle-container">
             <button type="button" onClick={toggleDarkTheme} className="dark-toggle">{isDarkTheme ? <FaSun className="toggle-icon"/> : <FaMoon className="toggle-icon"/>}</button>
-        </div>
+        </section>
     )
 }
 

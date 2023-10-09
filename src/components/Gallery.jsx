@@ -1,34 +1,46 @@
 import { useQuery } from "@tanstack/react-query"
-import authFetch from "../utils/custom"
+import axios from "axios";
 import { useGlobalContext } from "../utils/context";
+const url = `https://api.unsplash.com/search/photos?client_id=${import.meta.env.VITE_API_KEY}`;
 
 const Gallery = () => {
   const { searchValue } = useGlobalContext();
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['images'],
+  const response = useQuery({
+    queryKey: ['images', searchValue],
     queryFn: async () => {
-      const { data } = await authFetch.get(`page=1&per_page=20&query=${searchValue}`);
+      const {data} = await axios.get(`${url}&query=${searchValue}`);
       return data;
     }
   })
 
-  if (isLoading) {
-    return <p>Loading...</p>
+  if (response.isLoading) {
+    return <section className="image-container">
+      <p>Loading...</p>
+    </section>
   }
 
-  if (error) {
-    return <p>{error.response.data.msg}</p>
+  if (response.error) {
+    return <section className="image-container">
+      <p>{error.response.data.msg}</p>
+    </section>
   }
 
-  return (
-    <div className="image-container">
-      {data && data.results.map((image) => {
-        const { id, alt_description, urls } = image;
-        return <img key={id} src={urls.regular} alt={alt_description} className="img" />
-      })}
-    </div>
-  )
+  const results = response.data.results;
+  if (results.length < 1){
+    return <section className="image-container">
+      <p>There are no images for that query</p>
+    </section>
+  }
+
+    return (
+      <section className="image-container">
+        {results.map((image) => {
+          const { id, alt_description, urls } = image;
+          return <img key={id} src={urls.regular} alt={alt_description} className="img" />
+        })}
+      </section>
+    )
 }
 
 export default Gallery
